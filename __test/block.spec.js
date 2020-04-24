@@ -1,11 +1,7 @@
 const SHA256 = require('crypto-js/sha256');
 const Block = require("../src/block").Block
 
-function generateHash(obj) {
-    return SHA256(JSON.stringify(obj)).toString()
-}
-
-describe('Block Class Test', () => {
+describe('Block', () => {
     test('validate should return false if block has been tampered', () => {
         const data = {
             text: 'random text'

@@ -21,8 +21,6 @@ class Block {
         this.body = Buffer(JSON.stringify(data)).toString('hex');   // Will contain the transactions stored in the block, by default it will encode the data
         this.time = 0;                                              // Timestamp for the Block creation
         this.previousBlockHash = null;                              // Reference to the previous Block Hash
-
-        this.hash = Block.generateHash(this)
     }
 
     static generateHash(obj) {
@@ -74,12 +72,10 @@ class Block {
             const dataObj = JSON.parse(decodedData)
             // Resolve with the data if the object isn't the Genesis block
             if (!!dataObj && !!dataObj.data && dataObj.data === 'Genesis Block') {
-                reject(new Error('Data could not be retrieve!'))
+                reject({ error: 'Data could not be retrieve!' })
             } else {
                 resolve(dataObj)
             }
-
-
         })
     }
 
