@@ -72,7 +72,7 @@ class Block {
             const dataObj = JSON.parse(decodedData)
             // Resolve with the data if the object isn't the Genesis block
             if (!!dataObj && !!dataObj.data && dataObj.data === 'Genesis Block') {
-                reject({ error: 'Data could not be retrieve!' })
+                reject({ errorMessage: 'Data could not be retrieve!' })
             } else {
                 resolve(dataObj)
             }

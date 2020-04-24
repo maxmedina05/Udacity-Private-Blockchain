@@ -201,15 +201,24 @@ class Blockchain {
         let stars = [];
         return new Promise(async (resolve, reject) => {
 
-            for (const block of self.chain) {
-                const data = await block.getBData()
+            try {
+                for (const block of self.chain) {
+                    if(block.height === 0) {
+                        continue;
+                    }
+                    
+                    const data = await block.getBData()
 
-                if (data.address === address) {
-                    stars.push(data.star)
+                    if (data.address === address) {
+                        stars.push(data.star)
+                    }
                 }
-            }
 
-            resolve(stars)
+                resolve(stars)
+            } catch (e) {
+                console.log(e)
+                reject(e)
+            }
         });
     }
 
@@ -226,21 +235,21 @@ class Blockchain {
 
             const firstBlockValid = await self.chain[0].validate
 
-            if(!firstBlockValid) {
+            if (!firstBlockValid) {
                 errorLog.push('Genesis Block is invalid.')
             }
 
             for (let i = 1; i < self.chain.length - 1; i++) {
                 const previousBlock = self.chain[i - 1]
-                const currentBlock = self.chain[i] 
+                const currentBlock = self.chain[i]
 
                 const currentBlockValid = await currentBlock.validate()
 
-                if(!currentBlockValid) {
+                if (!currentBlockValid) {
                     errorLog.push(`Block with hash ${currentBlock.hash} is invalid.`)
                 }
 
-                if(currentBlock.previousBlockHash === previousBlock.hash) {
+                if (currentBlock.previousBlockHash === previousBlock.hash) {
                     errorLog.push(`Block with hash ${currentBlock.hash} has an invalid previous block hash.`)
                 }
             }
