@@ -22,4 +22,8 @@ describe('Blockchain', () => {
         expect(block.height).toBe(1)
         expect(block.previousBlockHash).toEqual(genesisBlock.hash)
     })
+
+    test('requestMessageOwnershipVerification should the message to be signed', async () => {
+        expect(true).toBe(false)
+    })
 })

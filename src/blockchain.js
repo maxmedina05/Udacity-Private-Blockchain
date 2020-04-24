@@ -49,6 +49,10 @@ class Blockchain {
         });
     }
 
+    getLatestBlock() {
+        return this.height === -1 ? null : this.chain[this.chain.length - 1]
+    }
+
     /**
      * _addBlock(block) will store a block in the chain
      * @param {*} block 
@@ -70,8 +74,8 @@ class Blockchain {
                 block.timestamp = new Date().getTime().toString().slice(0, -3)
                 block.hash = BlockClass.Block.generateHash(block)
 
-                if(self.height > 0) {
-                    block.previousBlockHash = self.chain[self.chain.length - 1].hash
+                if (self.height > 0) {
+                    block.previousBlockHash = self.getLatestBlock().hash
                 }
 
                 self.chain.push(block)
@@ -85,7 +89,7 @@ class Blockchain {
 
     /**
      * The requestMessageOwnershipVerification(address) method
-     * will allow you  to request a message that you will use to
+     * will allow you to request a message that you will use to
      * sign it with your Bitcoin Wallet (Electrum or Bitcoin Core)
      * This is the first step before submit your Block.
      * The method return a Promise that will resolve with the message to be signed
@@ -93,7 +97,10 @@ class Blockchain {
      */
     requestMessageOwnershipVerification(address) {
         return new Promise((resolve) => {
+            const timestamp = new Date().getTime().toString().slice(0, -3)
+            const messageToSign = (`${address}:${timestamp}:starRegistry`)
 
+            resolve(messageToSign)
         });
     }
 
