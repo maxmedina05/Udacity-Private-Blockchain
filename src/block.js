@@ -44,8 +44,10 @@ class Block {
         return new Promise((resolve, reject) => {
             // Save in auxiliary variable the current block hash
             const currentHash = self.hash
+            self.hash = ''
             // Recalculate the hash of the Block
             const newHash = Block.generateHash(self)
+            self.hash = currentHash
             // Comparing if the hashes changed
             const areHashesSame = currentHash === newHash
 
